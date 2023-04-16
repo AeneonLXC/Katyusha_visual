@@ -19,7 +19,7 @@ Created on Wed Mar 23 16:31:30 2022
 from Model import Global_Config
 
 class Config():
-    def __init__(self,armor="blue",morphology="open"):
+    def __init__(self,armor="red",morphology="open"):
         self.armor_tips = armor
         #   灰度二值化操作参数
         self.GRAY_THRESHOLD = Global_Config.gary_img_threshold["gary"]
@@ -57,15 +57,32 @@ class Config():
         #>大装甲板
         
         #   HSV 红蓝色域选择配置
+        self.hsv_window = "hsvBinary"#HSV窗口名字
         if armor == "red":
+            self.hmin_name = 'hmin'
+            self.hmax_name = 'hmax'
+            self.smin_name = 'smin'
+            self.smax_name = 'smax'
+            self.vmin_name = 'vmin'
+            self.vmax_name = 'vmax'
+        
             self.hmin = Global_Config.enemy_blue_threshold['hmin']
             self.hmax = Global_Config.enemy_blue_threshold['hmax']
             self.smin = Global_Config.enemy_blue_threshold['smin']
             self.smax = Global_Config.enemy_blue_threshold['smax']
             self.vmin = Global_Config.enemy_blue_threshold['vmin']
             self.vmax = Global_Config.enemy_blue_threshold['vmax']
+            self.valuemax = Global_Config.enemy_blue_threshold['valuemax']
         #   armor == "blue"
         else:
+            self.hmin1_name = 'hmin1'
+            self.hmax1_name = 'hmax1'
+            self.hmin2_name = 'hmin2'
+            self.hmax2_name = 'hmax2'
+            self.smin_name = 'smin'
+            self.smax_name = 'smax'
+            self.vmin_name = 'vmin'
+            self.vmax_name = 'vmax'
             self.hmin1 = Global_Config.enemy_red_threshold['hmin1']
             self.hmin2 = Global_Config.enemy_red_threshold['hmin2']
             self.hmax1 = Global_Config.enemy_red_threshold['hmax2']
@@ -74,6 +91,7 @@ class Config():
             self.smax = Global_Config.enemy_red_threshold['smax']
             self.vmin = Global_Config.enemy_red_threshold['vmin']
             self.vmax = Global_Config.enemy_red_threshold['vmax']
+            self.valuemax = Global_Config.enemy_red_threshold['valuemax']
 
 
 

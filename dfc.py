@@ -68,7 +68,6 @@ def setAngle(xmin , ymin, xmax, ymax):
         [-w, h, 0]
                               ],dtype=np.float64)
     #8mm相机内参矩阵 经过matlab标定得到的 需要用到实验室那个8mm的摄像头 
-    
     fx = 968.496673044780
     fy = 968.573358686266
     cx = 344.597232314722
@@ -76,15 +75,10 @@ def setAngle(xmin , ymin, xmax, ymax):
     K = np.array([[fx, 0, cx],
                   [0, fy, cy],
                   [0, 0, 1]], dtype=np.float64)
-
     cameraMatrix = K
-
     # 相机畸变系数
-        
     distCoeffs = np.array([-0.419966600633986, 0.312866671109218, 0, 0, 0],dtype=np.float64)
-    
     retval,rvec,tvec = cv.solvePnP(objectPoints, point, cameraMatrix, distCoeffs)
-    
     return retval,rvec,tvec
     
 

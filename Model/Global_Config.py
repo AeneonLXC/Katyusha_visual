@@ -37,25 +37,43 @@ area_threshold = {
 # lxc:需现场调试
 # 敌方为红色时HSV的阈值
 enemy_red_threshold = {
-    "hmin1": 165,
-    "hmax1": 180,
+    "hmin1": 105,
+    "hmax1": 115,
     "hmin2": 0,
-    "hmax2": 34,
-    "smin": 43,
-    "smax": 255,
-    "vmin": 46,
+    "hmax2": 255,
+    "smin": 0,
+    "smax": 73,
+    "vmin": 216,
     "vmax": 255,
+    'valuemax':255,
+    # "hmin1": 156,
+    # "hmax1": 180,
+    # "hmin2": 0,
+    # "hmax2": 10,
+    # "smin": 43,
+    # "smax": 255,
+    # "vmin": 46,
+    # "vmax": 255,
+    # 'valuemax':255,
 }
 
 # lxc:需现场调试
 # 敌方为蓝色时HSV的阈值
 enemy_blue_threshold = {
-    "hmin": 100,
-    "hmax": 124,
-    "smin": 43,
-    "smax": 255,
-    "vmin": 46,
+    "hmin": 6,
+    "hmax": 178,
+    "smin": 0,
+    "smax": 49,
+    "vmin": 255,
     "vmax": 255,
+    'valuemax':255,
+    # "hmin": 100,
+    # "hmax": 124,
+    # "smin": 43,
+    # "smax": 255,
+    # "vmin": 46,
+    # "vmax": 255,
+    # 'valuemax':255,
 }
 #灰度二值化阈值调整
 gary_img_threshold = {

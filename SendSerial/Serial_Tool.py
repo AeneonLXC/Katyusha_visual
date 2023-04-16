@@ -26,7 +26,7 @@ Created on Wed Nov 10 11:18:02 2021
 import serial
 import numpy as np
 import struct
-
+import time
 # 串口对象 
 class Serial_Tool:
 
@@ -81,12 +81,32 @@ class Serial_Tool:
 
         """
         try:
-            bytes_data = struct.pack('<hh', data1, data2, data3) # '<'表示小端字节序，'h'表示短整型（2字节）
+            value = 660 / 50
+            # data1,data2,data3 = 50,-60,0
+            yaw = int(value * data1)  # 映射公式
+            pitch = int(value * data2) # 映射公式
+            maxv = 50
+            # bytes_data = struct.pack('<hhh', yaw, pitch, data3) # '<'表示小端字节序，'h'表示短整型（2字节）
+            if yaw < 0 and pitch < 0:
+                bytes_data = struct.pack('<hhh', -maxv, -maxv, data3)
+            if yaw > 0 and pitch < 0:
+                bytes_data = struct.pack('<hhh', maxv, -maxv, data3)
+            if yaw > 0 and pitch > 0:
+                bytes_data = struct.pack('<hhh', maxv, maxv, data3)
+            if yaw < 0 and pitch > 0:
+                bytes_data = struct.pack('<hhh', -maxv, maxv, data3)
+            # if data1 >= -7 and data1 <= 7:
+            #     bytes_data = struct.pack('<hhh', 0, -maxv, data3)
+            # if data2 >= -7 and data2 <= 7:
+                # bytes_data = struct.pack('<hhh', -maxv, 0, data3)
+            if (data1 >= -15 and data1 <= 15) and (data2 >= -7 and data2 <= 7):
+                bytes_data = struct.pack('<hhh', 0, 0, data3)
+            time.sleep(0.012)
             ser.write(bytes_data) # 发送字节数据
-            # print("Successful Send Message")
+            print("Successful Send Message")
             # print("Not Send Message")
         except Exception as e:
-            print("=======Send Serial Exception!!!",e)
+            print("Send Serial Exception!!!",e)
                 
     
     def openSerial(self ,ser):
@@ -138,7 +158,7 @@ class Serial_Tool:
             print("=======Flase Close Serial !!!", e)
         
 # if __name__ == "__main__":
-#     port = "com10" #设置串口端口
+#     port = "com4" #设置串口端口
 #     bps = 115200 #设置波特率
 #     timex = 2 #设置
     

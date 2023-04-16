@@ -62,15 +62,36 @@ class Imager():
         hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV) #  转灰度图
         #   判断当前我方装甲板是什么颜色 我方红色装甲板就要用蓝色色域 我方蓝色装甲板就要用红色色域
         if config.armor_tips == "red":
-            img = cv.inRange(hsv, (config.hmin,config.smin,config.vmin), (config.hmax,config.smax,config.vmax))
+            hmin = cv.getTrackbarPos("hmin", config.hsv_window) #获取滑块的实时更新值传入cv.inRange函数，用于debug
+            smin = cv.getTrackbarPos("smin", config.hsv_window)
+            vmin = cv.getTrackbarPos("vmin", config.hsv_window)
+            hmax = cv.getTrackbarPos("hmax", config.hsv_window)
+            smax = cv.getTrackbarPos("smax", config.hsv_window) 
+            vmax = cv.getTrackbarPos("vmax", config.hsv_window) 
+            
+            img = cv.inRange(hsv, (hmin,smin,vmin), (hmax,smax,vmax))
             hsv_inrange = img
+            
+            return hsv_inrange
         #   config.armor_tips == "blue"
-        else: 
-            img1 = cv.inRange(hsv, (config.hmin1,config.smin,config.vmin), (config.hmax1,config.smax,config.vmax))
-            img2 = cv.inRange(hsv, (config.hmin2,config.smin,config.vmin), (config.hmax2,config.smax,config.vmax))
+        elif config.armor_tips == "blue":
+            hmin1 = cv.getTrackbarPos("hmin1", config.hsv_window) #获取滑块的实时更新值传入cv.inRange函数，用于debug
+            hmax1 = cv.getTrackbarPos("hmax1", config.hsv_window) 
+            hmin2 = cv.getTrackbarPos("hmin2", config.hsv_window) 
+            hmax2 = cv.getTrackbarPos("hmax2", config.hsv_window)
+            smin = cv.getTrackbarPos("smin", config.hsv_window)
+            vmin = cv.getTrackbarPos("vmin", config.hsv_window) 
+            smax = cv.getTrackbarPos("smax", config.hsv_window)
+            vmax = cv.getTrackbarPos("vmax", config.hsv_window)
+            img1 = cv.inRange(hsv, (hmin1,smin,vmin), (hmax1,smax,vmax))
+            img2 = cv.inRange(hsv, (hmin2,smin,vmin), (hmax2,smax,vmax))
             hsv_inrange = cv.add(img1, img2)
             
-        return hsv_inrange
+            return hsv_inrange
+        else: 
+            print("未知类型")
+            
+        
      
     def mroph_smooth(self, img):
         """
@@ -80,7 +101,6 @@ class Imager():
         kernel_value = cv.getTrackbarPos(str(config.morphology_name), "graygThreshold")
         #   获取模板结构
         kernel = cv.getStructuringElement(0, (kernel_value,kernel_value))
-        
         #   morphologyEx 可选参数 cv.MORPH_OPEN 开运算 cv.MORPH_CLOSE 闭运算 cv.MORPH_TOPHAT顶帽运算 cv.MORPH_BLACKHAT黑帽运算
         mroph = cv.morphologyEx(img, cv.MORPH_OPEN,kernel)
     
@@ -102,14 +122,104 @@ class Imager():
         cv.createTrackbar("GRAY", 
                            "graygThreshold", 
                            config.GRAY_THRESHOLD, 
-                           config.GRAY_MAXVAR, 
+                           config.valuemax, 
                            nothing)
         #   形态学操作滑块
-        cv.createTrackbar(str(config.morphology_name), 
+        cv.createTrackbar(str(config.armor_tips), 
                            "graygThreshold", 
                            config.morph, 
-                           config.max_morphology, 
+                           config.valuemax, 
                            nothing)
+        
+        #   HSV操作滑块
+        if config.armor_tips == 'red':
+            cv.namedWindow(config.hsv_window, cv.WINDOW_AUTOSIZE)
+            #hmin
+            cv.createTrackbar(str(config.hmin_name), 
+                               config.hsv_window, 
+                               config.hmin, 
+                               config.valuemax, 
+                               nothing)
+            #hmax
+            cv.createTrackbar(str(config.hmax_name), 
+                               config.hsv_window, 
+                               config.hmax, 
+                               config.valuemax, 
+                               nothing)
+            #smin
+            cv.createTrackbar(str(config.smin_name), 
+                               config.hsv_window, 
+                               config.smin, 
+                               config.valuemax, 
+                               nothing)
+            #smax
+            cv.createTrackbar(str(config.smax_name), 
+                               config.hsv_window, 
+                               config.smax, 
+                               config.valuemax, 
+                               nothing)
+            #vmin
+            cv.createTrackbar(str(config.vmin_name), 
+                               config.hsv_window, 
+                               config.vmin, 
+                               config.valuemax, 
+                               nothing)
+            #vmax
+            cv.createTrackbar(str(config.vmax_name), 
+                               config.hsv_window, 
+                               config.vmax, 
+                               config.valuemax, 
+                               nothing)
+        else:
+            cv.namedWindow(config.hsv_window, cv.WINDOW_AUTOSIZE)
+            #hmin1
+            cv.createTrackbar(str(config.hmin1_name), 
+                               config.hsv_window, 
+                               config.hmin1, 
+                               config.valuemax, 
+                               nothing)
+            #hmax1
+            cv.createTrackbar(str(config.hmax1_name), 
+                               config.hsv_window, 
+                               config.hmax1, 
+                               config.valuemax, 
+                               nothing)
+            #hmin2
+            cv.createTrackbar(str(config.hmin2_name), 
+                               config.hsv_window, 
+                               config.hmin2, 
+                               config.valuemax, 
+                               nothing)
+            #hmax2
+            cv.createTrackbar(str(config.hmax2_name), 
+                               config.hsv_window, 
+                               config.hmax2, 
+                               config.valuemax, 
+                               nothing)
+            #smin
+            cv.createTrackbar(str(config.smin_name), 
+                               config.hsv_window, 
+                               config.smin, 
+                               config.valuemax, 
+                               nothing)
+            #smax
+            cv.createTrackbar(str(config.smax_name), 
+                               config.hsv_window, 
+                               config.smax, 
+                               config.valuemax, 
+                               nothing)
+            #vmin
+            cv.createTrackbar(str(config.vmin_name), 
+                               config.hsv_window, 
+                               config.vmin, 
+                               config.valuemax, 
+                               nothing)
+            #vmax
+            cv.createTrackbar(str(config.vmax_name), 
+                               config.hsv_window, 
+                               config.vmax, 
+                               config.valuemax, 
+                               nothing)
     def Testdfc(self,img):
         # dp=2
         # miniDist = 100
@@ -175,7 +285,7 @@ class Imager():
                 z = rect[2]
                 if(rect_w < rect_h):
                     rect_w, rect_h = rect_h, rect_w
-                    z = float(z) + 90
+                    z = float(z) + 90   
                 points = cv.boxPoints(rect)
                 data_dict["area"] = area
                 data_dict["rx"], data_dict["ry"] = rect_x, rect_y
