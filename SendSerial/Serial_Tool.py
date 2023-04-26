@@ -85,7 +85,7 @@ class Serial_Tool:
             # data1,data2,data3 = 50,-60,0
             yaw = int(value * data1)  # 映射公式
             pitch = int(value * data2) # 映射公式
-            maxv = 50
+            maxv = 30
             # bytes_data = struct.pack('<hhh', yaw, pitch, data3) # '<'表示小端字节序，'h'表示短整型（2字节）
             if yaw < 0 and pitch < 0:
                 bytes_data = struct.pack('<hhh', -maxv, -maxv, data3)
