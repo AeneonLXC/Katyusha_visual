@@ -370,11 +370,27 @@ class Imager():
             armor_left = [[boxi[0][0], boxi[0][1]], [boxi[2][0], boxi[2][1]]]
             armor_right = [[boxj[1][0], boxj[1][1]], [boxj[3][0], boxj[3][1]]]
             
-            armor = [center, armor_left[0],armor_left[1],armor_right[0],armor_right[1]]
+            armor = [armor_left[0],armor_right[0],armor_right[1],armor_left[1],center]
             armors.append(armor)
             
         return armors
-        
+    
+    #都看到这里了，还不快退队，再不退队就退不了了（狗头）
+    def numberSVM(self, roi):
+        """
+         roi数字识别
+
+        Parameters
+        ----------
+        roi : img mat
+            对ROI区进行数字识别.
+
+        Returns
+        -------
+        None.
+
+        """
+    
     # def derection(self, input_frame):
         
     #     dst = getGaryBinaryImg(input_frame)
